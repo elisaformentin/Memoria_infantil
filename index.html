@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#253b32">
+<title>Memoria_1000</title>
+<style>
+:root{--ink:#203129;--green:#315849;--cream:#f6f3eb;--paper:#fffdf8;--muted:#6e776f;--line:#dcded5;--red:#a13e38;--gold:#d9ad4f}
+*{box-sizing:border-box} body{margin:0;background:var(--cream);color:var(--ink);font-family:system-ui,-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif}
+button,select{font:inherit} button{cursor:pointer}
+.app{max-width:760px;margin:0 auto;padding:18px 16px 32px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:18px}
+.brand{display:flex;align-items:center;gap:10px}.logo{width:44px;height:44px;border-radius:14px;background:var(--green);color:white;display:grid;place-items:center;font-size:24px}
+h1{font-size:21px;line-height:1.1;margin:0}.subtitle{font-size:12px;color:var(--muted);margin-top:4px}
+.pill{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:12px;background:var(--paper)}
+.panel{background:var(--paper);border:1px solid var(--line);border-radius:20px;padding:16px;margin-bottom:14px;box-shadow:0 3px 12px #253b3208}
+.eyebrow{font-size:11px;text-transform:uppercase;letter-spacing:.09em;color:var(--muted);font-weight:750}
+h2{font-size:19px;margin:5px 0 12px}
+label{display:block;font-size:13px;font-weight:700;margin-bottom:7px}
+select{width:100%;padding:12px;border:1px solid var(--line);border-radius:12px;background:white;color:var(--ink)}
+.controls{display:grid;grid-template-columns:1fr 1fr;gap:10px}.controls .full{grid-column:1/-1}
+.btn{border:0;border-radius:12px;padding:12px 14px;font-weight:750;background:var(--green);color:white}
+.btn.secondary{background:#e9eee8;color:var(--green);border:1px solid #d5dfd5}
+.btn.ghost{background:transparent;color:var(--green);border:1px solid var(--line)}
+.progressline{height:7px;background:#e9e9df;border-radius:20px;overflow:hidden;margin:12px 0 6px}.progressfill{height:100%;background:var(--green);width:0%;transition:width .2s}
+.progressmeta{display:flex;justify-content:space-between;color:var(--muted);font-size:12px}
+.cardtop{display:flex;align-items:center;justify-content:space-between;gap:8px;margin-bottom:14px}
+.flashcard{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#fff;margin-bottom:14px}
+.prompt-image{height:160px;background:#e8ece5;display:grid;place-items:center;overflow:hidden}
+.prompt-image img{width:100%;height:100%;object-fit:cover}.prompt-image .flagbig{font-size:74px}
+.promptbody{text-align:center;padding:17px}.promptbody h2{font-size:26px;margin:4px 0}.promptbody p{margin:0;color:var(--muted);font-size:13px}
+.answers{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.answer{padding:0;overflow:hidden;text-align:left;border:1px solid var(--line);border-radius:14px;background:white;color:var(--ink)}
+.answer img{display:block;width:100%;height:92px;object-fit:cover;background:#e8ece5}
+.answer .answertext{padding:10px;font-weight:750;font-size:14px;min-height:54px;display:flex;align-items:center;gap:7px}
+.answer .answertext .mini{font-size:20px}
+.answer:active{transform:scale(.99)}.answer:disabled{cursor:default;opacity:.85}
+.answer.correct{border:2px solid #39774f;background:#f0f7ef}.answer.wrong{border:2px solid var(--red);background:#fff0ed}
+.notice{border-radius:12px;padding:12px;margin:12px 0;font-size:14px;line-height:1.45}
+.notice.good{background:#e9f4e9;color:#245d37}.notice.bad{background:#f9e9e6;color:#8b302b}.notice.neutral{background:#f2efdf;color:#645421}
+.actions{display:flex;gap:9px;flex-wrap:wrap;margin-top:12px}.actions .btn{flex:1}
+.modalback{position:fixed;inset:0;background:#16251dcc;display:none;align-items:center;justify-content:center;padding:20px;z-index:10}
+.modalback.show{display:flex}.modal{background:var(--paper);border-radius:20px;padding:22px;max-width:420px;width:100%;box-shadow:0 20px 80px #0004}.modal h2{margin-top:0}.modal p{line-height:1.5;color:var(--muted)}
+.smallnote{font-size:12px;color:var(--muted);line-height:1.5}
+.empty{text-align:center;padding:24px 10px}.empty .emoji{font-size:48px}
+footer{text-align:center;color:var(--muted);font-size:11px;padding:8px}
+@media(min-width:600px){.app{padding:28px 22px}.prompt-image{height:210px}.answer img{height:120px}}
+</style>
+</head>
+<body>
+<div class="app">
+<header>
+  <div class="brand"><div class="logo">🧠</div><div><h1>Memoria_1000</h1><div class="subtitle">Aprenda uma carta de cada vez</div></div></div>
+  <div class="pill">Protótipo 0.1</div>
+</header>
+
+<section class="panel">
+  <div class="eyebrow">Escolha seu treino</div>
+  <h2>Qual baralho vamos praticar?</h2>
+  <div class="controls">
+    <div class="full"><label for="deck">Baralho</label>
+      <select id="deck">
+        <option value="countryCapital">País → Capital (com pontos turísticos)</option>
+        <option value="capitalCountry">Capital + bandeira → País</option>
+      </select>
+    </div>
+    <button class="btn secondary" id="resumeBtn">Retomar sessão</button>
+    <button class="btn ghost" id="shuffleBtn">↻ Embaralhar</button>
+  </div>
+  <p class="smallnote" style="margin-bottom:0">A ordem é mantida neste navegador. Embaralhar cria uma nova sequência para o baralho escolhido.</p>
+</section>
+
+<section class="panel">
+  <div class="cardtop"><div><div class="eyebrow" id="deckLabel">Países e capitais</div><div class="progressmeta" style="margin-top:5px"><span id="position">Carta 1 de 8</span><span id="score">0 acertos nesta sessão</span></div></div><span class="pill" id="streak">Erros seguidos: 0</span></div>
+  <div class="progressline"><div class="progressfill" id="progress"></div></div>
+  <div id="game"></div>
+  <div id="feedback" aria-live="polite"></div>
+  <div class="actions" id="nextActions" style="display:none"><button class="btn" id="nextBtn">Próxima carta →</button></div>
+</section>
+<section class="panel">
+  <div class="eyebrow">Biblioteca de temas</div>
+  <h2>Um motor, muitas categorias</h2>
+  <p class="smallnote">Países e capitais é o primeiro tema. A estrutura foi pensada para receber futuramente dinossauros, modelos de avião, carros clássicos, flores e outras coleções.</p>
+</section>
+<footer>Memoria_1000 · Protótipo de aprendizagem</footer>
+</div>
+
+<div class="modalback" id="modalBack" role="dialog" aria-modal="true" aria-labelledby="modalTitle">
+  <div class="modal"><h2 id="modalTitle">Como deseja continuar?</h2><p id="modalText">Você errou duas vezes seguidas.</p>
+    <div class="actions"><button class="btn" id="restartBtn">Recomeçar da carta 1</button><button class="btn secondary" id="continueBtn">Continuar treino</button></div>
+  </div>
+</div>
+
+<script>
+const cards = [
+ {id:"fr",country:"França",flag:"🇫🇷",capital:"Paris",landmark:"Torre Eiffel",photo:"https://images.unsplash.com/photo-1511739001486-6bfe10ce785f?auto=format&fit=crop&w=900&q=80",emoji:"🗼"},
+ {id:"it",country:"Itália",flag:"🇮🇹",capital:"Roma",landmark:"Coliseu",photo:"https://images.unsplash.com/photo-1552832230-c0197dd311b5?auto=format&fit=crop&w=900&q=80",emoji:"🏛️"},
+ {id:"gb",country:"Reino Unido",flag:"🇬🇧",capital:"Londres",landmark:"Big Ben",photo:"https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=900&q=80",emoji:"🕰️"},
+ {id:"jp",country:"Japão",flag:"🇯🇵",capital:"Tóquio",landmark:"Torre de Tóquio",photo:"https://images.unsplash.com/photo-1536098561742-ca998e48cbcc?auto=format&fit=crop&w=900&q=80",emoji:"🗼"},
+ {id:"us",country:"Estados Unidos",flag:"🇺🇸",capital:"Washington, D.C.",landmark:"Capitólio dos EUA",photo:"https://images.unsplash.com/photo-1501466044931-62695aada8e9?auto=format&fit=crop&w=900&q=80",emoji:"🏛️"},
+ {id:"br",country:"Brasil",flag:"🇧🇷",capital:"Brasília",landmark:"Catedral de Brasília",photo:"https://images.unsplash.com/photo-1569098644584-210bcd375b59?auto=format&fit=crop&w=900&q=80",emoji:"⛪"},
+ {id:"eg",country:"Egito",flag:"🇪🇬",capital:"Cairo",landmark:"Pirâmides de Gizé",photo:"https://images.unsplash.com/photo-1503177119275-0aa32b3a9368?auto=format&fit=crop&w=900&q=80",emoji:"🔺"},
+ {id:"in",country:"Índia",flag:"🇮🇳",capital:"Nova Délhi",landmark:"Portão da Índia",photo:"https://images.unsplash.com/photo-1524492412937-b28074a5d7da?auto=format&fit=crop&w=900&q=80",emoji:"🏛️"}
+];
+const $=id=>document.getElementById(id);
+const defaultOrder=()=>cards.map(c=>c.id);
+let state={deck:"countryCapital",orders:{countryCapital:defaultOrder(),capitalCountry:defaultOrder()},indexes:{countryCapital:0,capitalCountry:0},scores:{countryCapital:0,capitalCountry:0},streaks:{countryCapital:0,capitalCountry:0},recovery:{countryCapital:null,capitalCountry:null},answered:false,selected:null};
+const STORE="memoria1000_state_v1";
+function load(){try{const saved=JSON.parse(localStorage.getItem(STORE));if(saved&&saved.orders&&saved.indexes){state={...state,...saved};}}catch(e){}}
+function save(){try{localStorage.setItem(STORE,JSON.stringify({...state,answered:false,selected:null}));}catch(e){}}
+function currentDeck(){return state.deck}
+function orderedCards(){const order=state.orders[currentDeck()]||defaultOrder();return order.map(id=>cards.find(c=>c.id===id)).filter(Boolean)}
+function currentCard(){const list=orderedCards();return list[Math.min(state.indexes[currentDeck()]||0,list.length-1)]}
+function shuffled(a){const b=[...a];for(let i=b.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[b[i],b[j]]=[b[j],b[i]]}return b}
+function safeImage(src,alt){return `<img src="${src}" alt="${alt}" loading="lazy" onerror="this.style.display='none'">`}
+function render(){
+ const deck=currentDeck(),list=orderedCards(),idx=state.indexes[deck]||0,card=currentCard();
+ $("deck").value=deck;$("deckLabel").textContent=deck==="countryCapital"?"Países → capitais":"Capitais + bandeiras → países";
+ $("position").textContent=`Carta ${Math.min(idx+1,list.length)} de ${list.length}`;
+ $("score").textContent=`${state.scores[deck]||0} acertos nesta sessão`;
+ $("streak").textContent=`Erros seguidos: ${state.streaks[deck]||0}`;
+ $("progress").style.width=`${Math.min(100,(idx/list.length)*100)}%`;
+ $("feedback").innerHTML="";$("nextActions").style.display="none";state.answered=false;state.selected=null;
+ if(idx>=list.length){$("game").innerHTML=`<div class="empty"><div class="emoji">🎉</div><h2>Baralho concluído!</h2><p>Você chegou ao fim desta sequência.</p><button class="btn" onclick="restartSameOrder()">Recomeçar na mesma ordem</button></div>`;return}
+ if(deck==="countryCapital"){
+   $("game").innerHTML=`<div class="flashcard"><div class="prompt-image"><div class="flagbig">${card.flag}</div></div><div class="promptbody"><div class="eyebrow">Qual é a capital deste país?</div><h2>${card.country}</h2><p>Tente lembrar antes de escolher.</p></div></div><div class="answers" id="answers"></div>`;
+   const opts=shuffled([card,...cards.filter(c=>c.id!==card.id)]).slice(0,4);
+   opts.forEach(c=>addAnswer(c,`${c.emoji} ${c.capital}`,c.photo,c.id===card.id));
+ }else{
+   $("game").innerHTML=`<div class="flashcard"><div class="prompt-image">${safeImage(card.photo,card.landmark)}<div class="flagbig" style="position:absolute;display:none"></div></div><div class="promptbody"><div style="font-size:42px">${card.flag}</div><div class="eyebrow">Qual país tem esta capital e bandeira?</div><h2>${card.capital}</h2><p>Escolha o nome do país.</p></div></div><div class="answers" id="answers"></div>`;
+   const opts=shuffled([card,...cards.filter(c=>c.id!==card.id)]).slice(0,4);
+   opts.forEach(c=>addAnswer(c,`${c.flag} ${c.country}`,null,c.id===card.id));
+ }
+ save();
+}
+function addAnswer(c,label,photo,isCorrect){
+ const b=document.createElement("button");b.className="answer";
+ b.innerHTML=(photo?safeImage(photo,c.landmark):"")+`<div class="answertext">${label}</div>`;
+ b.addEventListener("click",()=>answer(b,c,isCorrect));$("answers").appendChild(b);
+}
+function answer(btn,c,isCorrect){
+ if(state.answered)return;state.answered=true;state.selected=c.id;
+ document.querySelectorAll(".answer").forEach(b=>b.disabled=true);
+ if(isCorrect){
+   btn.classList.add("correct");state.scores[currentDeck()]++;state.streaks[currentDeck()]=0;
+   $("feedback").innerHTML=`<div class="notice good">Correto! ${currentCard().flag} ${currentCard().country} — ${currentCard().capital}. Vamos avançar.</div>`;
+   $("nextActions").style.display="flex";$("nextBtn").textContent="Próxima carta →";
+   $("nextBtn").onclick=()=>{const d=currentDeck();state.indexes[d]++;state.answered=false;save();render()};
+ }else{
+   btn.classList.add("wrong");const correct=currentCard();
+   state.streaks[currentDeck()]++;
+   $("feedback").innerHTML=`<div class="notice bad">Ainda não. A resposta correta é ${correct.flag} ${correct.capital} — ${correct.country}. Vamos recuperar a sequência voltando uma carta.</div>`;
+   $("nextActions").style.display="flex";$("nextBtn").textContent="Voltar e tentar novamente";
+   $("nextBtn").onclick=()=>{
+     const d=currentDeck(),idx=state.indexes[d]||0;
+     state.recovery[d]={target:idx,returnTo:Math.max(0,idx-1)};
+     state.indexes[d]=Math.max(0,idx-1);
+     if(state.streaks[d]>=2){save();showModal()}else{save();render()}
+   };
+ }
+ save();
+}
+function showModal(){$("modalText").textContent="Você errou duas vezes seguidas. Quer recomeçar da primeira carta ou continuar tentando recuperar a sequência?";$("modalBack").classList.add("show")}
+function hideModal(){$("modalBack").classList.remove("show")}
+$("restartBtn").onclick=()=>{const d=currentDeck();state.indexes[d]=0;state.streaks[d]=0;state.recovery[d]=null;hideModal();save();render()};
+$("continueBtn").onclick=()=>{const d=currentDeck();state.streaks[d]=0;hideModal();save();render()};
+$("deck").onchange=e=>{state.deck=e.target.value;save();render()};
+$("shuffleBtn").onclick=()=>{const d=currentDeck();state.orders[d]=shuffled(defaultOrder());state.indexes[d]=0;state.scores[d]=0;state.streaks[d]=0;state.recovery[d]=null;save();render()};
+$("resumeBtn").onclick=()=>{load();render();$("feedback").innerHTML='<div class="notice neutral">Sessão recuperada, quando havia dados salvos neste navegador.</div>'};
+function restartSameOrder(){const d=currentDeck();state.indexes[d]=0;state.scores[d]=0;state.streaks[d]=0;state.recovery[d]=null;save();render()}
+load();render();
+</script>
+</body>
+</html>
